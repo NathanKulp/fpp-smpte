@@ -7,7 +7,7 @@ debug: all
 
 CFLAGS+=-I.
 OBJECTS_fpp_smpte_so += src/FPPSMPTE.o
-LIBS_fpp_smpte_so += -L$(SRCDIR) -lfpp -ljsoncpp -lltc -lSDL2
+LIBS_fpp_smpte_so += -L$(SRCDIR) -lfpp -ljsoncpp -lltc -lSDL2 -ldrogon
 CXXFLAGS_src/FPPSMPTE.o += -I$(SRCDIR)
 
 ifeq '$(ARCH)' 'OSX'

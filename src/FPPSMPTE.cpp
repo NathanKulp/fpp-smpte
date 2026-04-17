@@ -1,3 +1,5 @@
+
+#include <drogon/drogon.h>
 #include <fpp-pch.h>
 
 #include <ltc.h>
@@ -16,6 +18,19 @@
 
 
 class FPPSMPTEPlugin : public FPPPlugin, public MultiSyncPlugin {
+        // Register drogon HTTP API endpoints
+        void registerApis() override {
+            drogon::app().registerHandler("/api/plugin-apis/SMPTE/status",
+                [this](const drogon::HttpRequestPtr& req, std::function<void (const drogon::HttpResponsePtr &)> &&callback) {
+                    Json::Value status;
+                    status["plugin"] = "fpp-smpte";
+                    status["audioDev"] = (int)audioDev;
+                    status["enabled"] = enabled;
+                    auto resp = drogon::HttpResponse::newHttpJsonResponse(status);
+                    callback(resp);
+                },
+                {drogon::Get});
+        }
     
 public:
     FPPSMPTEPlugin() : FPPPlugin("fpp-smpte"), audioDev(0) {
